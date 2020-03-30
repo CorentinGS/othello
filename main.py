@@ -1,7 +1,8 @@
 import numpy as np
 
 from board import print_board
-from rules import display_rules
+import rules
+
 
 
 # Start game
@@ -14,7 +15,8 @@ def start_game():
     while choice != "play" and choice != "rules":
         choice = input("Invalid entry. Do you want to play or to read the rules ? (play / rules): ").lower()
     if choice in ["rules", "r"]:
-        display_rules()
+        rules.display_rules()
+        start_game()
     elif choice in ["play", 'p']:
         # Afficher le plateau
         board = np.zeros(shape=(8, 8))  # Plateau vierge

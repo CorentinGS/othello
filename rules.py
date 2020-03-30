@@ -1,20 +1,19 @@
 import numpy as np
 from board import print_board
 
-
 # Display Rules
 def display_rules():
   print ("\033[41mRules\033[0m") # Affiche "Rules" en fluo rouge
-  print ("\033[32mLe but du jeu:\033[0m")
-  print ("\033[36m Avoir plus de pions de sa couleur que l’adversaire à la fin de la partie. La partie se termine lorsque les 64 cases sont occupées.\033[0m")
-  print ("\033[32mPosition de départ:\033[0m")  
-  print ("\033[36m Au début de la partie, deux pions\033[0m")
-  print("\033[34m noirs en:\033[0m")
-  print("\033[34m (3;4) et (4;3)\033[0m")
-  print("\033[36mEt deux pions\033[0m")
-  print("\033[37m blanc en:\033[0m")
-  print("\033[37m (3;3) et (4;4)\033[0m")
-  print("\033[36mVoir l'exemple:\033[0m")
+  print ("\033[32mThe goal of the game: \033[0m")
+  print ("\033[36m Having more checkers of his color than the opponent at the end of the game. The game ends when neither player can make a legal move or when all 64 squares are occupied.\033[0m")
+  print ("\033[32mStarting position:\033[0m")  
+  print ("\033[36m At the beginning of the game,\033[0m")
+  print("\033[34m  two black pawns in:\033[0m")
+  print("\033[34m  (3;4) and (4;3)\033[0m")
+  print("\033[36m AND\033[0m")
+  print("\033[37m  two white pawns in:\033[0m")
+  print("\033[37m  (3;3) and (4;4)\033[0m")
+  print("\033[36m See the example:\033[0m")
   board = np.zeros(shape=(8, 8))  # Plateau vierge
   # Position init
   board[3][3] = 2
@@ -23,8 +22,9 @@ def display_rules():
   board[4][4] = 2
   print_board(board)
 
-  print("\033[36m Les Noirs commencent toujours et les deux adversaires jouent ensuite à tour de rôle. \033[0m")
-  print ("\033[32mLa pose d’un pion:\033[0m")
-  print ("\033[36m A son tour de jeu, le joueur doit poser son pion sur une case vide du plateau, adjacente à un pion adverse. Il doit également, en posant son pion, encadrer un ou plusieurs pions adverses entre le pion qu’il pose et un pion de sa couleur, déjà placé sur le plateau. Un coup qui encadre son adversaire peut se faire aussi bien horizontalement, verticalement, ou en diagonale. Les pions que le joueur vient d'encadrer deviennent les siens et prennent sa couleur. \033[0m")
-
-
+  print("\033[36m Black always starts first and then the two opponents take turns. \033[0m")
+  print ("\033[32mPawn laying:\033[0m")
+  print ("\033[36m  On his turn, the player must place his checker on an empty square on the board, adjacent to an opponent's checker. He must also, when placing his pawn on the board, place one or more of his opponent's pawns between the pawn he is placing and a pawn of his own colour, already placed on the board. A move that frames the opponent's checkers can be made horizontally, vertically or diagonally. The checkers that the player has just framed become his own and take his colour. \033[0m")
+  
+  return
+  
