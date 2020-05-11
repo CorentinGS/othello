@@ -1,6 +1,6 @@
 import numpy as np
 
-from board import print_board, get_legal_move, print_legal_moves
+from board import print_board, get_legal_move, print_legal_moves, take_player_turn
 
 
 def get_player():
@@ -16,6 +16,7 @@ def get_player():
 
 # Start game
 def start_game():
+
     player_1, player_2 = get_player()
 
     # Afficher le plateau
@@ -27,7 +28,9 @@ def start_game():
     board[4][4] = 1
     print_board(board, str(player_1), str(player_2))
     black_legal_moves = get_legal_move(board, 1)
-    print_legal_moves(board, black_legal_moves, 1)
+    moves = print_legal_moves(board, black_legal_moves, 1)
+    board = take_player_turn(board, moves, 1)
+    print_board(board, str(player_1), str(player_2))
 
 
 start_game()
