@@ -1,6 +1,7 @@
+from random import choice
+
 import numpy as np
 from termcolor import colored
-from random import choice
 
 board_row_top = '-------------------------------'
 
@@ -10,16 +11,16 @@ black_piece = colored('●', 'blue')
 black_legal_move = colored('●', 'blue', attrs=['blink'])
 board_piece = {
     0: '   |',
-    2: ' ' + white_piece + ' |',
-    1: ' ' + black_piece + ' |'
+    1: ' ' + white_piece + ' |',
+    2: ' ' + black_piece + ' |'
 }
 
 
 # Print Board
 def print_board(board, player_1: str, player_2: str):
     # Scores
-    score_black = len(np.where(board == 1)[0])
-    score_white = len(np.where(board == 2)[0])
+    score_black = len(np.where(board == 2)[0])
+    score_white = len(np.where(board == 1)[0])
     # Top row
     print('  ' + colored('/' + board_row_top + '\\', 'blue'))
     for i in range(0, 8):
@@ -45,36 +46,35 @@ def print_board(board, player_1: str, player_2: str):
 
 
 def get_legal_move(board, player_color: int):
-    white_pieces = np.where(board == 2)
-    black_pieces = np.where(board == 1)
+    white_pieces = np.where(board == 1)
+    black_pieces = np.where(board == 2)
     legal_moves = []
     if player_color == 1:
         opponent_color = 2
     else:
         opponent_color = 1
+    player_pieces = np.where(board==player_color)
 
-    for color in [('white', white_pieces), ('black', black_pieces)]:
-        pieces = color[1]
-        for piece in zip(pieces[0], pieces[1]):
-            row = piece[0]
-            col = piece[1]
-            box = get_box(board, row, col)
-            opp_pieces = np.where(box == opponent_color)
-            for move in zip(opp_pieces[0], opp_pieces[1]):
-                y_direction = move[0] - 1
-                x_direction = move[1] - 1
-                new_row = row + y_direction * 2
-                new_col = col + x_direction * 2
-                while 0 <= new_row <= 7 and 0 <= new_col <= 7:
-                    if board[new_row][new_col] == 0:
-                        if (new_row, new_col) in legal_moves:
-                            legal_moves.append((new_row, new_col))
-                            break
-                    elif board[new_row][new_col] == opponent_color:
-                        new_row += y_direction
-                        new_col += x_direction
-                    else:
+    for piece in zip(player_pieces[0], player_pieces[1]):
+        row = piece[0]
+        col = piece[1]
+        box = get_box(board, row, col)
+        opp_pieces = np.where(box == opponent_color)
+        for move in zip(opp_pieces[0], opp_pieces[1]):
+            y_direction = move[0] - 1
+            x_direction = move[1] - 1
+            new_row = row + y_direction * 2
+            new_col = col + x_direction * 2
+            while 0 <= new_row <= 7 and 0 <= new_col <= 7:
+                if board[new_row][new_col] == 0:
+                    if (new_row, new_col) not in legal_moves:
+                        legal_moves.append((new_row, new_col))
                         break
+                elif board[new_row][new_col] == opponent_color:
+                    new_row += y_direction
+                    new_col += x_direction
+                else:
+                    break
     return legal_moves
 
 
@@ -84,7 +84,7 @@ def print_legal_moves(board, legal_moves, player: int):
         row = colored('  |', 'red')
         for j in range(0, 8):
             if (i, j) in legal_moves:
-                row += ' ' + white_legal_move + ' |' if player == 2 else ' ' + black_legal_move + ' |'
+                row += ' ' + white_legal_move + ' |' if player == 1 else ' ' + black_legal_move + ' |'
             else:
                 row += board_piece[int(board[i][j])]
         row = row[:-1] + colored('|', 'blue')
@@ -96,7 +96,7 @@ def print_legal_moves(board, legal_moves, player: int):
 
 
 def get_box(board, row, col):
-    if row > 0 and row < 7 and col > 0 and col < 7:
+    if 0 < row < 7 and col > 0 and col < 7:
         box = np.reshape([
             board[i][j] for i in range(row - 1, row + 2)
             for j in range(col - 1, col + 2)
@@ -178,8 +178,9 @@ def get_box(board, row, col):
     return box
 
 
-def commentaire():
 
+
+def commentaire():
     liste = [
         "Perfect", "You are a champion", "Good job ", "Well done", "Wow ! "
     ]
