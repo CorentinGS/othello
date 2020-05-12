@@ -17,7 +17,7 @@ board_piece = {
 
 
 # Print Board
-def print_board(board, player_1: str, player_2: str):
+def print_board(board: np.array, player_1: str, player_2: str):
     # Scores
     score_black = len(np.where(board == 2)[0])
     score_white = len(np.where(board == 1)[0])
@@ -44,7 +44,7 @@ def print_board(board, player_1: str, player_2: str):
     print('  ' + colored("\\" + board_row_top + '/', 'blue'))
 
 
-def get_legal_move(board, player_color: int):
+def get_legal_move(board: np.array, player_color: int) -> list:
     legal_moves = []
     if player_color == 1:
         opponent_color = 2
@@ -67,6 +67,8 @@ def get_legal_move(board, player_color: int):
                     if (new_row, new_col) not in legal_moves:
                         legal_moves.append((new_row, new_col))
                         break
+                    else:
+                        break
                 elif board[new_row][new_col] == opponent_color:
                     new_row += y_direction
                     new_col += x_direction
@@ -75,26 +77,8 @@ def get_legal_move(board, player_color: int):
     return legal_moves
 
 
-'''
-def print_legal_moves(board, legal_moves, player: int):
-    print('  ' + colored('/' + board_row_top + '\\', 'red'))
-    for i in range(0, 8):
-        row = colored('  |', 'red')
-        for j in range(0, 8):
-            if (i, j) in legal_moves:
-                row += ' ' + white_legal_move + ' |' if player == 1 else ' ' + black_legal_move + ' |'
-            else:
-                row += board_piece[int(board[i][j])]
-        row = row[:-1] + colored('|', 'red')
-        print(row)
-        if not i == 7:
-            print(
-                colored('  +', 'red') + board_row_top + colored('+', 'red'))
-    print('  ' + colored('\\' + board_row_top + '/', 'red'))
-'''
-
-
-def print_legal_moves(board, legal_moves, player: int):
+def print_legal_moves(board: np.array, legal_moves: list, player: int) -> dict:
+    # TODO: Ajouter les scores et le joueur qui doit jouer
     moves = {}
     x = 0
     print('  ' + colored('/' + board_row_top + '\\', 'red'))
@@ -116,7 +100,7 @@ def print_legal_moves(board, legal_moves, player: int):
     return moves
 
 
-def take_player_turn(board, moves: dict, player: int):
+def take_player_turn(board: np.array, moves: dict, player: int) -> np.array:
     if not moves:
         return "No moves"
     num = 0
@@ -127,9 +111,9 @@ def take_player_turn(board, moves: dict, player: int):
     return board
 
 
-def update_board(board, player, pos):
-    row = pos[0]
-    col = pos[1]
+def update_board(board: np.array, player: int, pos: (int, int)) -> np.array:
+    row: int = pos[0]
+    col: int = pos[1]
     if player == 1:
         opponent_color = 2
     else:
@@ -142,7 +126,6 @@ def update_board(board, player, pos):
 
         new_row = row + y_direction * 2
         new_col = col + x_direction * 2
-        pieces_to_flip = [(row, col), (row + y_direction, col + x_direction)]
         pieces_to_flip = [(row, col), (row + y_direction, col + x_direction)]
 
         #  if cell is empty, stop
@@ -165,7 +148,7 @@ def update_board(board, player, pos):
     return board
 
 
-def get_box(board, row, col):
+def get_box(board: np.array, row: int, col: int) -> np.array:
     if 0 < row < 7 and 0 < col < 7:
         box = np.reshape([
             board[i][j] for i in range(row - 1, row + 2)
