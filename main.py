@@ -1,6 +1,7 @@
 import numpy as np
 
 from board import print_board, get_legal_move, print_legal_moves, take_player_turn
+from rules import display_rules
 
 
 def get_player() -> (str, str):
@@ -12,6 +13,17 @@ def get_player() -> (str, str):
         player_2 = str(input("Invalid name, Enter second player's name:> "))
     print("Name J1: {0} | Name J2: {1}".format(player_1, player_2))
     return player_1, player_2
+
+
+def start():
+    option: str = ""
+    while option not in ["play", "rules"]:
+        option = str(input("Do you want to play or to read the rules first ? (play / rules):> ")).lower()
+    if option == "play":
+        start_game()
+    else:
+        display_rules()
+        start()
 
 
 # Start game
@@ -50,4 +62,4 @@ def start_game():
     print("Winner : {}".format(winner))
 
 
-start_game()
+start()
