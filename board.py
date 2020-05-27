@@ -1,5 +1,3 @@
-from random import choice
-
 import numpy as np
 from termcolor import colored
 
@@ -91,6 +89,7 @@ def print_legal_moves(board: np.array, legal_moves: list, player: int) -> dict:
                 moves[str(x)] = (i, j)
             else:
                 row += board_piece[int(board[i][j])]
+
         row = row[:-1] + colored('|', 'red')
         print(row)
         if not i == 7:
@@ -229,11 +228,3 @@ def get_box(board: np.array, row: int, col: int) -> np.array:
                 mode='constant',
                 constant_values=0)
     return box
-
-
-def commentaire():
-    liste = [
-        "Perfect", "You are a champion", "Good job ", "Well done", "Wow ! "
-    ]
-    resultat = choice(liste)
-    print(resultat)

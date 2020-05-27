@@ -28,11 +28,26 @@ def start_game():
     print_board(board, str(player_1), str(player_2))
     while not end:
         black_legal_moves = get_legal_move(board, 2)
-        moves = print_legal_moves(board, black_legal_moves, 2)
-        board = take_player_turn(board, moves, 2)
+        if black_legal_moves:
+            moves = print_legal_moves(board, black_legal_moves, 2)
+            board = take_player_turn(board, moves, 2)
         white_legal_moves = get_legal_move(board, 1)
-        moves = print_legal_moves(board, white_legal_moves, 1)
-        board = take_player_turn(board, moves, 1)
+        if white_legal_moves:
+            moves = print_legal_moves(board, white_legal_moves, 1)
+            board = take_player_turn(board, moves, 1)
+        if not white_legal_moves and not black_legal_moves:
+            end = True
+
+    score_black = len(np.where(board == 2)[0])
+    score_white = len(np.where(board == 1)[0])
+    if score_black > score_white:
+        winner = player_1
+    elif score_black == score_white:
+        winner = "draw"
+    else:
+        winner = player_2
+
+    print("Winner : {}".format(winner))
 
 
 start_game()
