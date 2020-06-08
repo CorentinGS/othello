@@ -1,4 +1,6 @@
 import numpy as np
+import os
+
 
 from board import print_board, get_legal_move, print_legal_moves, take_player_turn
 from rules import display_rules
@@ -41,14 +43,20 @@ def start_game():
     while not end:
         black_legal_moves = get_legal_move(board, 2)
         if black_legal_moves:
+            cls()
             moves = print_legal_moves(board, black_legal_moves, 2)
             board = take_player_turn(board, moves, 2)
+            cls()
         white_legal_moves = get_legal_move(board, 1)
         if white_legal_moves:
+            cls()
             moves = print_legal_moves(board, white_legal_moves, 1)
             board = take_player_turn(board, moves, 1)
         if not white_legal_moves and not black_legal_moves:
             end = True
+            cls()
+            print_board(board, str(player_1), str(player_2))
+
 
     score_black = len(np.where(board == 2)[0])
     score_white = len(np.where(board == 1)[0])
@@ -59,7 +67,10 @@ def start_game():
     else:
         winner = player_2
 
-    print("Winner : {}".format(winner))
+    print("Winner : {} | {} - {}".format(winner, score_black, score_white) )
+
+def cls():
+    os.system('cls' if os.name=='nt' else 'clear')
 
 
 start()
